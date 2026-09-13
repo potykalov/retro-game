@@ -8,6 +8,7 @@ import PositionedCharacter from "./PositionedCharacter.js";
 import Daemon from "./characters/Daemon.js";
 import Undead from "./characters/Undead.js";
 import Vampire from "./characters/Vampire.js";
+import cursors from "../constants/cursors.js";
 
 // Класс, отвечающий за логику приложения
 
@@ -83,17 +84,17 @@ export default class GameController {
       return index === position;
     });
 
-    if (selectedCharacter && this.savedIndex) {
-      this.gamePlay.deselectCell(this.savedIndex);
-      this.gamePlay.selectCell(index);
+    if (!selectedCharacter) {
+      GamePlay.showError("Выберите своего персонажа");
+      return;
     }
 
-    if (selectedCharacter) {
-      this.gamePlay.selectCell(index);
-      this.savedIndex = index;
-    } else {
-      GamePlay.showError("Выберите своего персонажа");
+    if (this.savedIndex !== null) {
+      this.gamePlay.deselectCell(this.savedIndex);
     }
+
+    this.gamePlay.selectCell(index);
+    this.savedIndex = index;
   }
 
   onCellEnter(index) {
@@ -103,12 +104,68 @@ export default class GameController {
     ].find(({ position }) => {
       return index === position;
     });
+    const nextPlayerCharacter = this.playerPositions.find(({ position }) => {
+      return index === position;
+    });
+    const enemyCharacter = this.enemyPositions.find(({ position }) => {
+      return index === position;
+    });
+    const selectedCharacter = this.playerPositions.find(({ position }) => {
+      return this.savedIndex === position;
+    });
+    const attackRanges = {
+      swordsman: 1,
+      bowman: 2,
+      magician: 4,
+    };
+    const moveRanges = {
+      swordsman: 4,
+      bowman: 2,
+      magician: 1,
+    };
+    const rowDistance = Math.abs(
+      Math.floor(index / 8) - Math.floor(this.savedIndex / 8),
+    );
+    const columnDistance = Math.abs((index % 8) - (this.savedIndex % 8));
+
+    if (selectedCharacter && enemyCharacter) {
+      const attackRange = attackRanges[selectedCharacter.character.type];
+
+      if (rowDistance <= attackRange && columnDistance <= attackRange) {
+        this.gamePlay.setCursor(cursors.crosshair);
+        this.gamePlay.selectCell(index, "red");
+      } else {
+        this.gamePlay.setCursor(cursors.notallowed);
+      }
+    }
 
     if (currentCharacter) {
       this.gamePlay.showCellTooltip(
         this.generateMessage(currentCharacter, index),
         index,
       );
+    }
+
+    if (this.savedIndex !== null && nextPlayerCharacter) {
+      this.gamePlay.setCursor(cursors.pointer);
+    }
+
+    if (selectedCharacter && !currentCharacter) {
+      const moveRange = moveRanges[selectedCharacter.character.type];
+
+      const isStraight = rowDistance === 0 || columnDistance === 0;
+      const isDiagonal = rowDistance === columnDistance;
+
+      if (
+        rowDistance <= moveRange &&
+        columnDistance <= moveRange &&
+        (isStraight || isDiagonal)
+      ) {
+        this.gamePlay.setCursor(cursors.pointer);
+        this.gamePlay.selectCell(index, "green");
+      } else {
+        this.gamePlay.setCursor(cursors.notallowed);
+      }
     }
   }
 
@@ -122,6 +179,12 @@ export default class GameController {
     if (players) {
       this.gamePlay.hideCellTooltip(index);
     }
+
+    if (index !== this.savedIndex) {
+      this.gamePlay.deselectCell(index);
+    }
+
+    this.gamePlay.setCursor(cursors.auto);
   }
 
   generateMessage({ character: { level, attack, defence, health } }) {

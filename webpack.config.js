@@ -9,6 +9,12 @@ const __dirname = path.dirname(__filename);
 const config = {
   entry: "./src/index.js",
 
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    clean: true,
+  },
+
   devServer: {
     port: 8080,
     open: true,
@@ -18,13 +24,13 @@ const config = {
 
   module: {
     rules: [
-       {
+      {
         test: /\.m?js$/,
         resolve: {
-        fullySpecified: false,
-       },
-       },
-       {
+          fullySpecified: false,
+        },
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: "babel-loader",
@@ -50,12 +56,6 @@ const config = {
 
   resolve: {
     extensions: [".js"],
-  },
-
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
   },
 
   plugins: [

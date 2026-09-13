@@ -1,5 +1,5 @@
 {
-  "name": "PROJECT-NAME",
+  "name": "Retro Game",
   "scripts": {
     "prod": "webpack --mode=production",
     "dev": "webpack --mode=development",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/potykalov/PROJECT-NAME.git"
+    "url": "git+https://github.com/potykalov/retro-game.git"
   },
   "author": "Dmitriy Potykalov <dmitriy.potykalov@gmail.com> (https://github.com/potykalov)",
   "license": "MIT",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/potykalov/PROJECT-NAME/issues"
+    "url": "https://github.com/potykalov/retro-game/issues"
   },
-  "homepage": "https://github.com/potykalov/PROJECT-NAME#readme",
+  "homepage": "https://github.com/potykalov/retro-game/#readme",
   "devDependencies": {
     "@babel/cli": "^8.0.4",
     "@babel/core": "^8.0.1",

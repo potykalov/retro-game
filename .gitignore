@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# Generate output
+dist/
+
+# Jest
+coverage/

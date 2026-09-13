@@ -10,11 +10,11 @@ export default class GameStateService {
     this.storage.setItem("state", JSON.stringify(state));
   }
 
-  //   load() {
-  //     try {
-  //       return JSON.parse(this.storage.getItem("state"));
-  //     } catch (e) {
-  //       throw new Error("Invalid state");
-  //     }
-  //   }
+  load() {
+    try {
+      return JSON.parse(this.storage.getItem("state"));
+    } catch {
+      throw new Error("Invalid state");
+    }
+  }
 }

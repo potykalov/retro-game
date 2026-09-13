@@ -12,8 +12,12 @@
  * undead
  * vampire
  */
+
+// Базовый класс, от которого наследуются и
+// реализовываются специализированные персонажи
+
 export default class Character {
-  constructor(level, type = 'generic') {
+  constructor(level, type = "generic") {
     this.level = level;
     this.attack = 0;
     this.defence = 0;

@@ -1,5 +1,7 @@
 import { calcHealthLevel, calcTileType } from "../utils/utils";
 
+// Класс, отвечающий за взаимодействие с HTML-страницей
+
 export default class GamePlay {
   constructor() {
     this.boardSize = 8;

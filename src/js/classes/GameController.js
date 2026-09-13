@@ -12,6 +12,8 @@ import Vampire from "./characters/Vampire.js";
 // Класс, отвечающий за логику приложения
 
 export default class GameController {
+  savedIndex = null;
+
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
     this.stateService = stateService;
@@ -76,7 +78,23 @@ export default class GameController {
     }
   }
 
-  onCellClick(index) {}
+  onCellClick(index) {
+    const selectedCharacter = this.playerPositions.find(({ position }) => {
+      return index === position;
+    });
+
+    if (selectedCharacter && this.savedIndex) {
+      this.gamePlay.deselectCell(this.savedIndex);
+      this.gamePlay.selectCell(index);
+    }
+
+    if (selectedCharacter) {
+      this.gamePlay.selectCell(index);
+      this.savedIndex = index;
+    } else {
+      GamePlay.showError("Выберите своего персонажа");
+    }
+  }
 
   onCellEnter(index) {
     const currentCharacter = [

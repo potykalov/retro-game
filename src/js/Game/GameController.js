@@ -6,9 +6,14 @@ import Magician from "./characters/Magician.js";
 import Swordsman from "./characters/Swordsman.js";
 import Undead from "./characters/Undead.js";
 import Vampire from "./characters/Vampire.js";
+import GamePlay from "./GamePlay.js";
 import PositionedCharacter from "./PositionedCharacter.js";
 
 export default class GameController {
+  playerActiveCharacterIndex = undefined;
+  PLAYER_TYPES = [Bowman, Swordsman, Magician];
+  ENEMY_TYPES = [Vampire, Undead, Daemon];
+
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
     this.stateService = stateService;
@@ -17,10 +22,8 @@ export default class GameController {
   init() {
     this.gamePlay.drawUi(THEMES.prairie);
 
-    const PLAYER_TYPES = [Bowman, Swordsman, Magician];
-    const ENEMY_TYPES = [Vampire, Undead, Daemon];
-    const playerTeam = generateTeam(PLAYER_TYPES, 3, 4);
-    const enemyTeam = generateTeam(ENEMY_TYPES, 3, 4);
+    const playerTeam = generateTeam(this.PLAYER_TYPES, 3, 4);
+    const enemyTeam = generateTeam(this.ENEMY_TYPES, 3, 4);
     const playerStartCells = [
       0, 1, 8, 9, 16, 17, 24, 25, 32, 33, 40, 41, 48, 49, 56, 57,
     ];
@@ -54,8 +57,6 @@ export default class GameController {
       return positionedCharacter;
     });
 
-    console.log(this.enemyPositionedCharacters);
-
     this.gamePlay.redrawPositions([
       ...this.playerPositionedCharacters,
       ...this.enemyPositionedCharacters,
@@ -76,7 +77,26 @@ export default class GameController {
     this.state = this.stateService.load();
   }
 
-  // onCellClick(index) {}
+  onCellClick(index) {
+    const playerCharacterClicked = this.playerPositionedCharacters.find(
+      (playerCharacter) => {
+        return playerCharacter.position === index;
+      },
+    );
+
+    if (!playerCharacterClicked && !this.playerActiveCharacterIndex) {
+      GamePlay.showError("Выберите своего персонажа");
+    }
+
+    if (this.playerActiveCharacterIndex && playerCharacterClicked) {
+      this.gamePlay.deselectCell(this.playerActiveCharacterIndex);
+    }
+
+    if (playerCharacterClicked) {
+      this.gamePlay.selectCell(index);
+      this.playerActiveCharacterIndex = playerCharacterClicked.position;
+    }
+  }
 
   onCellEnter(index) {
     this.characterHovered = [

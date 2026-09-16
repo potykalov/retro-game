@@ -27,22 +27,20 @@ export default class GameController {
     const enemyStartCells = [
       6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63,
     ];
-    const playerPositionedCharacters = playerTeam.characters.map(
-      (character) => {
-        const randomPosition = Math.floor(
-          Math.random() * playerStartCells.length,
-        );
-        const positionedCharacter = new PositionedCharacter(
-          character,
-          playerStartCells[randomPosition],
-        );
+    this.playerPositionedCharacters = playerTeam.characters.map((character) => {
+      const randomPosition = Math.floor(
+        Math.random() * playerStartCells.length,
+      );
+      const positionedCharacter = new PositionedCharacter(
+        character,
+        playerStartCells[randomPosition],
+      );
 
-        playerStartCells.splice(randomPosition, 1);
+      playerStartCells.splice(randomPosition, 1);
 
-        return positionedCharacter;
-      },
-    );
-    const enemyPositionedCharacters = enemyTeam.characters.map((character) => {
+      return positionedCharacter;
+    });
+    this.enemyPositionedCharacters = enemyTeam.characters.map((character) => {
       const randomPosition = Math.floor(
         Math.random() * playerStartCells.length,
       );
@@ -56,24 +54,51 @@ export default class GameController {
       return positionedCharacter;
     });
 
+    console.log(this.enemyPositionedCharacters);
+
     this.gamePlay.redrawPositions([
-      ...playerPositionedCharacters,
-      ...enemyPositionedCharacters,
+      ...this.playerPositionedCharacters,
+      ...this.enemyPositionedCharacters,
     ]);
 
-    // TODO: add event listeners to gamePlay events
-    // TODO: load saved stated from stateService
+    this.gamePlay.addCellClickListener((index) => {
+      this.onCellClick(index);
+    });
+
+    this.gamePlay.addCellEnterListener((index) => {
+      this.onCellEnter(index);
+    });
+
+    this.gamePlay.addCellLeaveListener((index) => {
+      this.onCellLeave(index);
+    });
+
+    this.state = this.stateService.load();
   }
 
-  // onCellClick(index) {
-  //   // TODO: react to click
-  // }
+  // onCellClick(index) {}
 
-  // onCellEnter(index) {
-  //   // TODO: react to mouse enter
-  // }
+  onCellEnter(index) {
+    this.characterHovered = [
+      ...this.playerPositionedCharacters,
+      ...this.enemyPositionedCharacters,
+    ].find(({ position }) => position === index);
 
-  // onCellLeave(index) {
-  //   // TODO: react to mouse leave
-  // }
+    if (this.characterHovered) {
+      this.gamePlay.showCellTooltip(
+        this.generateMessage(this.characterHovered),
+        index,
+      );
+    }
+  }
+
+  onCellLeave(index) {
+    if (this.characterHovered) {
+      this.gamePlay.hideCellTooltip(index);
+    }
+  }
+
+  generateMessage({ character: { level, attack, defence, health } }) {
+    return `\u{1F396}${level} \u{2694}${attack} \u{1F6E1}${defence} \u{2764}${health}`;
+  }
 }

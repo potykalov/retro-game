@@ -1,3 +1,4 @@
+import CURSORS from "../constants/cursors.js";
 import THEMES from "../constants/themes.js";
 import { generateTeam } from "../utils/generators.js";
 import Bowman from "./characters/Bowman.js";
@@ -10,9 +11,25 @@ import GamePlay from "./GamePlay.js";
 import PositionedCharacter from "./PositionedCharacter.js";
 
 export default class GameController {
-  playerActiveCharacterIndex = undefined;
+  playerActiveCharacterIndex = null;
   PLAYER_TYPES = [Bowman, Swordsman, Magician];
   ENEMY_TYPES = [Vampire, Undead, Daemon];
+  MOVE_RANGES = {
+    bowman: 2,
+    daemon: 1,
+    magician: 1,
+    swordsman: 4,
+    undead: 4,
+    vampire: 2,
+  };
+  ATTACK_RANGES = {
+    bowman: 2,
+    daemon: 4,
+    magician: 4,
+    swordsman: 1,
+    undead: 1,
+    vampire: 2,
+  };
 
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
@@ -30,6 +47,7 @@ export default class GameController {
     const enemyStartCells = [
       6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63,
     ];
+
     this.playerPositionedCharacters = playerTeam.characters.map((character) => {
       const randomPosition = Math.floor(
         Math.random() * playerStartCells.length,
@@ -44,9 +62,7 @@ export default class GameController {
       return positionedCharacter;
     });
     this.enemyPositionedCharacters = enemyTeam.characters.map((character) => {
-      const randomPosition = Math.floor(
-        Math.random() * playerStartCells.length,
-      );
+      const randomPosition = Math.floor(Math.random() * enemyStartCells.length);
       const positionedCharacter = new PositionedCharacter(
         character,
         enemyStartCells[randomPosition],
@@ -84,11 +100,11 @@ export default class GameController {
       },
     );
 
-    if (!playerCharacterClicked && !this.playerActiveCharacterIndex) {
+    if (!playerCharacterClicked && this.playerActiveCharacterIndex === null) {
       GamePlay.showError("Выберите своего персонажа");
     }
 
-    if (this.playerActiveCharacterIndex && playerCharacterClicked) {
+    if (this.playerActiveCharacterIndex !== null && playerCharacterClicked) {
       this.gamePlay.deselectCell(this.playerActiveCharacterIndex);
     }
 
@@ -99,22 +115,76 @@ export default class GameController {
   }
 
   onCellEnter(index) {
-    this.characterHovered = [
+    const characterHovered = [
       ...this.playerPositionedCharacters,
       ...this.enemyPositionedCharacters,
     ].find(({ position }) => position === index);
+    const playerCharacterHovered = this.playerPositionedCharacters.find(
+      (playerCharacter) => {
+        return playerCharacter.position === index;
+      },
+    );
+    const enemyCharacterHovered = this.enemyPositionedCharacters.find(
+      (enemyCharacter) => {
+        return enemyCharacter.position === index;
+      },
+    );
 
-    if (this.characterHovered) {
+    if (characterHovered) {
       this.gamePlay.showCellTooltip(
-        this.generateMessage(this.characterHovered),
+        this.generateMessage(characterHovered),
         index,
       );
+    }
+
+    if (playerCharacterHovered) {
+      this.gamePlay.setCursor(CURSORS.pointer);
+    }
+
+    if (this.playerActiveCharacterIndex !== null) {
+      const columnDistance = Math.abs(
+        (index % 8) - (this.playerActiveCharacterIndex % 8),
+      );
+      const rowDistance = Math.abs(
+        Math.floor(index / 8) - Math.floor(this.playerActiveCharacterIndex / 8),
+      );
+      const isStraight = columnDistance === 0 || rowDistance === 0;
+      const isDiagonal = rowDistance === columnDistance;
+      const selectedCharacter = this.playerPositionedCharacters.find(
+        ({ position }) => position === this.playerActiveCharacterIndex,
+      );
+      const moveRange = this.MOVE_RANGES[selectedCharacter.character.type];
+      const attackRange = this.ATTACK_RANGES[selectedCharacter.character.type];
+
+      if (
+        !characterHovered &&
+        (isDiagonal || isStraight) &&
+        rowDistance <= moveRange &&
+        columnDistance <= moveRange
+      ) {
+        this.gamePlay.selectCell(index, "green");
+        this.gamePlay.setCursor(CURSORS.pointer);
+      } else if (playerCharacterHovered) {
+        this.gamePlay.setCursor(CURSORS.pointer);
+      } else if (
+        enemyCharacterHovered &&
+        rowDistance <= attackRange &&
+        columnDistance <= attackRange
+      ) {
+        this.gamePlay.selectCell(index, "red");
+        this.gamePlay.setCursor(CURSORS.crosshair);
+      } else {
+        this.gamePlay.setCursor(CURSORS.notallowed);
+      }
     }
   }
 
   onCellLeave(index) {
-    if (this.characterHovered) {
-      this.gamePlay.hideCellTooltip(index);
+    this.gamePlay.hideCellTooltip(index);
+    this.gamePlay.setCursor(CURSORS.auto);
+
+    if (index !== this.playerActiveCharacterIndex) {
+      this.gamePlay.deselectCell(index);
     }
   }
 

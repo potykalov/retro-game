@@ -1,13 +1,16 @@
+import themes from "../constants/themes.js";
+
 export default class GameController {
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
     this.stateService = stateService;
   }
 
-  // init() {
-  //   // TODO: add event listeners to gamePlay events
-  //   // TODO: load saved stated from stateService
-  // }
+  init() {
+    this.gamePlay.drawUi(themes.prairie);
+    // TODO: add event listeners to gamePlay events
+    // TODO: load saved stated from stateService
+  }
 
   // onCellClick(index) {
   //   // TODO: react to click

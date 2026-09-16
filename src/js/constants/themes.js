@@ -1,8 +1,8 @@
-const themes = {
-  prairie: 'prairie',
-  desert: 'desert',
-  arctic: 'arctic',
-  mountain: 'mountain',
+const THEMES = {
+  prairie: "prairie",
+  desert: "desert",
+  arctic: "arctic",
+  mountain: "mountain",
 };
 
-export default themes;
+export default THEMES;

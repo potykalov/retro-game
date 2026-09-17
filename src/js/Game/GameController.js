@@ -1,35 +1,15 @@
+import { PLAYER_TYPES, ENEMY_TYPES } from "../constants/characterTypes.js";
 import CURSORS from "../constants/cursors.js";
+import { ATTACK_RANGES, MOVE_RANGES } from "../constants/ranges.js";
 import THEMES from "../constants/themes.js";
 import { generateTeam } from "../utils/generators.js";
-import Bowman from "./characters/Bowman.js";
-import Daemon from "./characters/Daemon.js";
-import Magician from "./characters/Magician.js";
-import Swordsman from "./characters/Swordsman.js";
-import Undead from "./characters/Undead.js";
-import Vampire from "./characters/Vampire.js";
 import GamePlay from "./GamePlay.js";
+import GameState from "./GameState.js";
 import PositionedCharacter from "./PositionedCharacter.js";
 
 export default class GameController {
   playerActiveCharacterIndex = null;
-  PLAYER_TYPES = [Bowman, Swordsman, Magician];
-  ENEMY_TYPES = [Vampire, Undead, Daemon];
-  MOVE_RANGES = {
-    bowman: 2,
-    daemon: 1,
-    magician: 1,
-    swordsman: 4,
-    undead: 4,
-    vampire: 2,
-  };
-  ATTACK_RANGES = {
-    bowman: 2,
-    daemon: 4,
-    magician: 4,
-    swordsman: 1,
-    undead: 1,
-    vampire: 2,
-  };
+  gameState = new GameState();
 
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
@@ -38,15 +18,15 @@ export default class GameController {
 
   init() {
     this.gamePlay.drawUi(THEMES.prairie);
-
-    const playerTeam = generateTeam(this.PLAYER_TYPES, 3, 4);
-    const enemyTeam = generateTeam(this.ENEMY_TYPES, 3, 4);
+    const playerTeam = generateTeam(PLAYER_TYPES, 3, 4);
+    const enemyTeam = generateTeam(ENEMY_TYPES, 3, 4);
     const playerStartCells = [
       0, 1, 8, 9, 16, 17, 24, 25, 32, 33, 40, 41, 48, 49, 56, 57,
     ];
     const enemyStartCells = [
       6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63,
     ];
+    // const enemyStartCells = [2, 10, 18, 26, 34, 42, 50, 58];
 
     this.playerPositionedCharacters = playerTeam.characters.map((character) => {
       const randomPosition = Math.floor(
@@ -94,10 +74,17 @@ export default class GameController {
   }
 
   onCellClick(index) {
+    if (this.gameState.isPlayerTurn === false) {
+      return;
+    }
+
     const playerCharacterClicked = this.playerPositionedCharacters.find(
       (playerCharacter) => {
         return playerCharacter.position === index;
       },
+    );
+    const enemyCharacterClicked = this.enemyPositionedCharacters.find(
+      ({ position }) => position === index,
     );
 
     if (!playerCharacterClicked && this.playerActiveCharacterIndex === null) {
@@ -111,6 +98,72 @@ export default class GameController {
     if (playerCharacterClicked) {
       this.gamePlay.selectCell(index);
       this.playerActiveCharacterIndex = playerCharacterClicked.position;
+      return;
+    }
+
+    if (this.playerActiveCharacterIndex !== null) {
+      const columnDistance = Math.abs(
+        (index % 8) - (this.playerActiveCharacterIndex % 8),
+      );
+      const rowDistance = Math.abs(
+        Math.floor(index / 8) - Math.floor(this.playerActiveCharacterIndex / 8),
+      );
+      const isStraight = columnDistance === 0 || rowDistance === 0;
+      const isDiagonal = rowDistance === columnDistance;
+      const selectedCharacter = this.playerPositionedCharacters.find(
+        ({ position }) => position === this.playerActiveCharacterIndex,
+      );
+      const moveRange = MOVE_RANGES[selectedCharacter.character.type];
+      const attackRange = ATTACK_RANGES[selectedCharacter.character.type];
+
+      if (
+        !enemyCharacterClicked &&
+        (isDiagonal || isStraight) &&
+        rowDistance <= moveRange &&
+        columnDistance <= moveRange
+      ) {
+        this.gamePlay.deselectCell(this.playerActiveCharacterIndex);
+        this.gamePlay.deselectCell(index);
+        selectedCharacter.position = index;
+        this.playerActiveCharacterIndex = null;
+        this.gameState.isPlayerTurn = false;
+
+        this.gamePlay.redrawPositions([
+          ...this.playerPositionedCharacters,
+          ...this.enemyPositionedCharacters,
+        ]);
+      }
+
+      if (
+        enemyCharacterClicked &&
+        rowDistance <= attackRange &&
+        columnDistance <= attackRange
+      ) {
+        const { character: attacker } = this.playerPositionedCharacters.find(
+          (playerCharacter) => {
+            return playerCharacter.position === this.playerActiveCharacterIndex;
+          },
+        );
+        const { character: target } = enemyCharacterClicked;
+        const damage = Math.max(
+          attacker.attack - target.defence,
+          attacker.attack * 0.1,
+        );
+
+        target.health -= damage;
+
+        this.gamePlay.deselectCell(this.playerActiveCharacterIndex);
+        this.gamePlay.deselectCell(index);
+        this.gameState.isPlayerTurn = false;
+        this.playerActiveCharacterIndex = null;
+
+        this.gamePlay.showDamage(index, damage).then(() => {
+          this.gamePlay.redrawPositions([
+            ...this.playerPositionedCharacters,
+            ...this.enemyPositionedCharacters,
+          ]);
+        });
+      }
     }
   }
 
@@ -153,8 +206,8 @@ export default class GameController {
       const selectedCharacter = this.playerPositionedCharacters.find(
         ({ position }) => position === this.playerActiveCharacterIndex,
       );
-      const moveRange = this.MOVE_RANGES[selectedCharacter.character.type];
-      const attackRange = this.ATTACK_RANGES[selectedCharacter.character.type];
+      const moveRange = MOVE_RANGES[selectedCharacter.character.type];
+      const attackRange = ATTACK_RANGES[selectedCharacter.character.type];
 
       if (
         !characterHovered &&

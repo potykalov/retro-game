@@ -5,12 +5,8 @@
 Итоговая работа по модулю **«Продвинутый JavaScript: современные возможности языка»** Нетологии. Проект основан на [учебном задании](https://github.com/netology-code/js-advanced-diploma) с готовым интерфейсом и частью базовых классов. Основная работа — игровая логика, развитие персонажей, сохранение состояния, тесты и настройка окружения.
 
 <div align="center">
-  <a href="https://potykalov.github.io/retro-game/">
-    <img src="https://img.shields.io/badge/▶_Открыть_демо-2ea44f?style=for-the-badge" alt="Открыть демо">
-  </a>
-  <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка">
-  </a>
+  <a href="https://potykalov.github.io/retro-game/"><img src="https://img.shields.io/badge/▶_Открыть_демо-2ea44f?style=for-the-badge" alt="Открыть демо"></a>
+ <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка"></a>
 </div>
 
 <br>
@@ -33,8 +29,22 @@
   <a href="#установка-и-запуск">Запуск</a> •
   <a href="#структура-и-реализация">Реализация</a> •
   <a href="#тестирование">Тестирование</a> •
-  <a href="#учебные-результаты">Учебные результаты</a>
+  <a href="#учебные-результаты">Учебные результаты</a> •
+  <a href="#скриншоты">Скриншоты</a>
 </p>
+
+<br>
+
+<div align="center">
+  <img
+    src="assets/gameplay.gif"
+    width="700"
+    alt="Игровой процесс Retro Game: выбор персонажа, перемещение, ответ компьютера и атака"
+  >
+</div>
+
+<br>
+
 
 ## Функционал
 
@@ -170,6 +180,50 @@ npm start
 - сериализация состояния и восстановление объектов после загрузки;
 - модульное тестирование, параметризованные проверки и моки;
 - настройка сборки, полифиллов, линтера и автоматических проверок.
+
+## Скриншоты
+
+### Выбор персонажа и доступные действия
+
+Подсветка показывает свободные клетки для перемещения и противников, которых выбранный персонаж может атаковать.
+
+<div align="center">
+  <img
+    src="assets/character-selection.jpg"
+    width="700"
+    alt="Выбранный персонаж с подсветкой доступных перемещений и целей атаки"
+  >
+</div>
+
+<br>
+
+### Переход на следующий уровень
+
+После победы уцелевшие персонажи повышают уровень, восстанавливают здоровье и продолжают сражение на поле с новой темой.
+
+<div align="center">
+  <img
+    src="assets/next-level.jpg"
+    width="700"
+    alt="Следующий уровень Retro Game с другой темой поля и развитыми персонажами"
+  >
+</div>
+
+<br>
+
+### Результат партии
+
+По завершении игры появляется окно с набранными очками и информацией о рекорде.
+
+<div align="center">
+  <img
+    src="assets/game-result.jpg"
+    width="700"
+    alt="Окно завершения игры с набранными очками и рекордом"
+  >
+</div>
+
+<br>
 
 ## Лицензия
 

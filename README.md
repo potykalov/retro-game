@@ -4,15 +4,24 @@
 
 Итоговая работа по модулю **«Продвинутый JavaScript: современные возможности языка»** Нетологии. Проект основан на [учебном задании](https://github.com/netology-code/js-advanced-diploma) с готовым интерфейсом и частью базовых классов. Основная работа — игровая логика, развитие персонажей, сохранение состояния, тесты и настройка окружения.
 
-<p align="center">
-  <a href="https://potykalov.github.io/retro-game/">▶️ Открыть демо</a> ·
-  <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml">Проверки CI</a>
-</p>
+<div align="center">
+  <a href="https://potykalov.github.io/retro-game/">
+    <img src="https://img.shields.io/badge/▶_Открыть_демо-2ea44f?style=for-the-badge" alt="Открыть демо">
+  </a>
+  <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка">
+  </a>
+</div>
+
+<br>
 
 <div align="center">
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000" alt="JavaScript">
   <img src="https://img.shields.io/badge/Webpack-5-8DD6F9?style=for-the-badge&logo=webpack&logoColor=000" alt="Webpack 5">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="Лицензия MIT"></a>
+  <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="Лицензия MIT">
+  </a>
 </div>
 
 <br>
@@ -164,8 +173,20 @@ npm start
 
 ## Лицензия
 
-Код распространяется под лицензией [MIT](LICENSE). Сведения о сторонних графических ресурсах сохранены в [licenses.txt](licenses.txt).
+Код распространяется под лицензией [MIT](LICENSE).
+<br>
+Сведения о сторонних графических ресурсах сохранены в [licenses.txt](licenses.txt).
 
 ## Автор
 
-[Дмитрий Потыкалов](https://github.com/potykalov) · Frontend-разработчик
+<div align="center">
+  <p>
+    <strong>Дмитрий Потыкалов</strong><br>
+    Frontend-разработчик
+  </p>
+
+  <a href="https://github.com/potykalov"><img src="https://img.shields.io/badge/GitHub-профиль-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
+  <a href="mailto:dmitriy.potykalov@gmail.com"><img src="https://img.shields.io/badge/Gmail-написать-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail"></a>
+  <a href="https://t.me/dmitriy_potykalov"><img src="https://img.shields.io/badge/Telegram-написать-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <a href="https://www.linkedin.com/in/potykalov"><img src="https://img.shields.io/badge/LinkedIn-профиль-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+</div>

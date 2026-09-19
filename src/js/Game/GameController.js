@@ -535,7 +535,7 @@ export default class GameController {
       playerStartCells.splice(randomIndex, 1);
     });
 
-    const enemyTeam = generateTeam(ENEMY_TYPES, 1, 1);
+    const enemyTeam = generateTeam(ENEMY_TYPES, 1, 4);
 
     this.enemyPositionedCharacters = enemyTeam.characters.map((character) => {
       const randomIndex = Math.floor(Math.random() * enemyStartCells.length);

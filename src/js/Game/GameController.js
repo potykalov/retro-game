@@ -417,18 +417,18 @@ export default class GameController {
           this.gameState.isGameOver = true;
 
           if (this.gameState.score > this.gameState.maxScore) {
-            GamePlay.showMessage(`GAME OVER! Все уровни пройдены. 
-        --- Вы получили ${this.gameState.score} очков ---
-        !!! НОВЫЙ РЕКОРД !!!`);
+            GamePlay.showMessage(`Игра окончена. Ваш отряд уничтожен.
+Вы получили ${this.gameState.score} очков.
+Новый рекорд!`);
 
             this.gameState.maxScore = this.gameState.score;
 
             return;
           }
 
-          GamePlay.showMessage(`GAME OVER! Все уровни пройдены. 
-        --- Вы получили ${this.gameState.score} очков ---
-        Рекорд: ${this.gameState.maxScore} очков`);
+          GamePlay.showMessage(`Игра окончена. Ваш отряд уничтожен.
+Вы получили ${this.gameState.score} очков.
+Рекорд: ${this.gameState.maxScore} очков.`);
 
           return;
         }
@@ -509,7 +509,9 @@ export default class GameController {
 
       team.splice(index, 1);
 
-      this.gameState.score += 10;
+      if (team === this.enemyPositionedCharacters) {
+        this.gameState.score += 10;
+      }
     }
   }
 
@@ -535,7 +537,7 @@ export default class GameController {
       playerStartCells.splice(randomIndex, 1);
     });
 
-    const enemyTeam = generateTeam(ENEMY_TYPES, 1, 4);
+    const enemyTeam = generateTeam(ENEMY_TYPES, this.gameLevel, 4);
 
     this.enemyPositionedCharacters = enemyTeam.characters.map((character) => {
       const randomIndex = Math.floor(Math.random() * enemyStartCells.length);

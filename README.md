@@ -6,10 +6,13 @@
 
 <div align="center">
   <a href="https://potykalov.github.io/retro-game/"><img src="https://img.shields.io/badge/▶_Открыть_демо-2ea44f?style=for-the-badge" alt="Открыть демо"></a>
- <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка"></a>
 </div>
 
 <br>
+
+<div align="center">
+   <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка"></a>
+</div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000" alt="JavaScript">
@@ -22,16 +25,18 @@
 
 <br>
 
-<p align="center">
+<div align="center">
   <a href="#функционал">Функционал</a> •
   <a href="#управление-игрой">Управление</a> •
   <a href="#технологии">Технологии</a> •
   <a href="#установка-и-запуск">Запуск</a> •
+</div>
+<div align="center">
   <a href="#структура-и-реализация">Реализация</a> •
   <a href="#тестирование">Тестирование</a> •
   <a href="#учебные-результаты">Учебные результаты</a> •
   <a href="#скриншоты">Скриншоты</a>
-</p>
+</div>
 
 <br>
 

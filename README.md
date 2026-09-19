@@ -12,6 +12,12 @@
 
 <div align="center">
    <a href="https://github.com/potykalov/retro-game/actions/workflows/node-ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/node-ci.yml?branch=main&event=push&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI: тесты, ESLint и сборка"></a>
+  <a href="https://github.com/potykalov/retro-game/actions/workflows/github-code-scanning/codeql">
+  <img
+    src="https://img.shields.io/github/actions/workflow/status/potykalov/retro-game/dynamic%2Fgithub-code-scanning%2Fcodeql?branch=main&amp;style=for-the-badge&amp;logo=github&amp;logoColor=white&amp;label=CodeQL"
+    alt="CodeQL — статус анализа кода"
+  ></a>
+<a href="https://github.com/potykalov/retro-game/blob/main/.github/dependabot.yml"><img src="https://img.shields.io/badge/Dependabot-enabled-025E8C?style=for-the-badge&logo=dependabot&logoColor=white" alt="Dependabot: обновление зависимостей настроено"></a>
 </div>
 
 <div align="center">

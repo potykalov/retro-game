@@ -191,11 +191,38 @@ export default class GamePlay {
   }
 
   static showError(message) {
-    alert(message);
+    this.showMessage(message);
   }
 
   static showMessage(message) {
-    alert(message);
+    const module = document.createElement("dialog");
+    const content = document.createElement("div");
+    const text = document.createElement("p");
+    const btnClose = document.createElement("button");
+
+    module.className = "game-dialog";
+    content.className = "game-dialog__content";
+    text.className = "game-dialog__message";
+    btnClose.className = "game-dialog__btn";
+
+    text.textContent = message;
+    btnClose.textContent = "Закрыть";
+
+    content.append(text, btnClose);
+    module.append(content);
+    document.body.append(module);
+
+    module.addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        module.close();
+      }
+
+      if (e.target === btnClose) {
+        module.close();
+      }
+    });
+
+    module.showModal();
   }
 
   selectCell(index, color = "yellow") {

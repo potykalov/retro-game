@@ -1,7 +1,87 @@
 import CURSORS from "../../constants/cursors.js";
 import GameController from "../GameController.js";
+import GamePlay from "../GamePlay.js";
 
 describe("GameController", () => {
+  describe("onload", () => {
+    it("should process data from local storage", () => {
+      const data = {
+        enemyPositions: [
+          {
+            character: {
+              attack: 25,
+              defence: 25,
+              health: 50,
+              level: 1,
+              type: "vampire",
+            },
+            position: 62,
+          },
+        ],
+        gameLevel: 3,
+        isGameOver: false,
+        isPlayerTurn: true,
+        maxScore: 0,
+        playerPositions: [
+          {
+            character: {
+              attack: 40,
+              defence: 10,
+              health: 50,
+              level: 1,
+              type: "swordsman",
+            },
+            position: 0,
+          },
+        ],
+        score: 0,
+      };
+      const dataGameState = {
+        isGameOver: false,
+        isPlayerTurn: true,
+        maxScore: 0,
+        score: 0,
+      };
+      const gamePlay = { drawUi: jest.fn(), redrawPositions: jest.fn() };
+      const stateService = {
+        load: jest.fn(),
+      };
+      const gameController = new GameController(gamePlay, stateService);
+
+      gameController.playerActiveCharacterIndex = 10;
+      stateService.load.mockReturnValue(data);
+      gameController.onLoadGame();
+
+      expect(gameController.gameLevel).toBe(data.gameLevel);
+      expect(gameController.playerActiveCharacterIndex).toBeNull();
+      expect(gameController.gameState).toEqual(dataGameState);
+      expect(gameController.gamePlay.drawUi).toHaveBeenCalledWith("arctic");
+      expect(gameController.gamePlay.redrawPositions).toHaveBeenCalledWith([
+        ...data.playerPositions,
+        ...data.enemyPositions,
+      ]);
+    });
+
+    it("should successfully handle the thrown error", () => {
+      const gamePlay = {};
+      const stateService = { load: jest.fn() };
+      const gameController = new GameController(gamePlay, stateService);
+      const showMessage = jest
+        .spyOn(GamePlay, "showError")
+        .mockImplementation();
+
+      stateService.load.mockImplementation(() => {
+        throw new Error("Invalid state");
+      });
+
+      gameController.onLoadGame();
+
+      expect(showMessage).toHaveBeenCalledWith(
+        "Не удалось загрузить сохранённую игру",
+      );
+    });
+  });
+
   describe("generateMessage", () => {
     const cases = [
       {

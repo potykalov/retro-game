@@ -13,9 +13,6 @@
   </a>
 </div>
 
-[![CodeQL](https://github.com/potykalov/retro-game/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/potykalov/retro-game/actions/workflows/github-code-scanning/codeql)
-[![Dependabot Updates](https://github.com/potykalov/retro-game/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/potykalov/retro-game/actions/workflows/dependabot/dependabot-updates)
-
 <br>
 
 <div align="center">

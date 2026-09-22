@@ -21,7 +21,16 @@ Retro Game — учебная браузерная игра на JavaScript, в 
 
 ## Содержание
 
-[Возможности](#основные-возможности) · [Мой вклад](#мой-вклад) · [Технологии](#технологии) · [Техническая реализация](#техническая-реализация) · [Запуск](#установка-и-запуск) · [Тестирование](#тестирование) · [Демонстрация](#демонстрация-игрового-процесса)
+<p align="center">
+  <a href="#основные-возможности">Возможности</a> ·
+  <a href="#мой-вклад">Мой вклад</a> ·
+  <a href="#технологии">Технологии</a> ·
+  <a href="#техническая-реализация">Техническая реализация</a> ·
+  <br>
+  <a href="#установка-и-запуск">Запуск</a> ·
+  <a href="#тестирование">Тестирование</a> ·
+  <a href="#демонстрация-игрового-процесса">Демонстрация</a>
+</p>
 
 ## Основные возможности
 
@@ -216,5 +225,5 @@ npm run prod
 [GitHub](https://github.com/potykalov) ·
 [Резюме](https://drive.google.com/file/d/1-FthWK2FrCPop39JiLnkouS1WSrIpZer/view) ·
 [Email](mailto:dmitriy.potykalov@gmail.com) ·
-[Telegram](https://t.me/dmitriy_potykalov) ·
-[LinkedIn](https://www.linkedin.com/in/potykalov)
+ [Telegram](https://t.me/dmitriy_potykalov) <!-- ·
+[LinkedIn](https://www.linkedin.com/in/potykalov) -->

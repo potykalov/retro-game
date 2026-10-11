@@ -214,10 +214,6 @@ npm run prod
   >
 </p>
 
-## Лицензия
-
-[Лицензия MIT](LICENSE).
-
 ## Автор и контакты
 
 **Дмитрий Потыкалов — Junior Frontend Developer**
